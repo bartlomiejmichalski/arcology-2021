@@ -1,0 +1,8 @@
+[package]
+name = "arcology-api"
+version = "0.1.0"
+authors = ["Bartłomiej Michalski"]
+edition = "2018"
+
+[dependencies]
+actix-web="3.3.1"
