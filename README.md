@@ -1,31 +1,44 @@
 # Purpose
-This is application that is responsible for hosting Arcology game.
+This is an application that is responsible for hosting the Arcology game.
 
 # How to run
 You can use cargo to run it locally or docker to host it. 
 ## Host Locally 
 
-Command line using cargo: 
-* Build
+The application requires Redis as an experiment store to run. You can run the Redis container using Docker or docker-compose. 
+
 ```
-cargo build 
+docker-compose up Redis
 ```
 
-* Run
+Then you can develop an application using cargo or running cargo inside another container. 
+
+## Local development on your host machine
+
+You can run application using cargo. 
+
 ```
-cargo run 
+cargo run
+```
+Using this way any kind of changes made in code won't affect your application. You will have to stop the application and run it again. 
+
+The better solution would be using a cargo watch. You will have to install it first using:
+
+```
+cargo install cargo-watch
 ```
 
-By default application is using port 8080. 
+After this step you can simply run the application :
+```
+cargo watch -x run
+```
 
-## Docker
-Command line using docker: 
-* Build
+## Local development using docker
+
+You run the whole application using: 
+
 ```
-docker build -t arcology-backend .
+docker-compose up
 ```
-* Run
-```
-docker stop arcology-backend-container
-docker run -p 8080:8080 --rm --name arcology-backend arcology-backend-container
-```
+
+And continue development using for example vs code. The important thing is that you will have to mount your repository folder to the container. 
