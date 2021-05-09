@@ -1,0 +1,3 @@
+FROM rust:1.51
+RUN cargo install cargo-watch
+WORKDIR /usr/src/arcology

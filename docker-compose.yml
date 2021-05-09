@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: 
+        context: .
+        dockerfile: ./dockerfiles/Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/arcology
+    links:
+      - redis
+    command: sh -c "cargo watch -x run"
+    environment:
+      - REDIS_ADDRESS=redis
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+volumes:
+  logvolume01: {}

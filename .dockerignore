@@ -1,2 +1,4 @@
 target/
 .git/
+docker-compose.yml
+Dockerfile*
