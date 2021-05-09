@@ -57,11 +57,11 @@ pub fn get_experiment(pool: &RedisPool, key: &str) -> RedisResult<Experiment> {
     let value  = con.get(key).map_err(RedisError::CMDError)?;
     match value {
         Value::Nil => Ok(Experiment::new()),
-        _ => {
-            let exp : RedisResult<String> = FromRedisValue::from_redis_value(&value)
-                                                .map_err(|e| RedisError::TypeError(e).into());
-            let deserialized: Experiment = serde_json::from_str(&exp.unwrap()).unwrap();
-            Ok(deserialized)
-        }      
+        _ => FromRedisValue::from_redis_value(&value)
+            .map(|v: String| {
+                let deserialized: Experiment = serde_json::from_str(&v).unwrap();
+                deserialized 
+            })
+            .map_err(|e| RedisError::TypeError(e).into())            
     }
 }
