@@ -1,6 +1,6 @@
+mod model;
 mod r2d2_pool;
 mod handlers; 
-mod model;
 
 use r2d2_pool::RedisPool;
 use handlers::{ping, retrieve, command};

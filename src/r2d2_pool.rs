@@ -52,16 +52,18 @@ pub fn save_experiment(pool: &RedisPool, key: &str, experiment: &Experiment) -> 
     save_str(&pool, key, &serialized)?;
     Ok(())
 } 
+
+fn deserialize_experiment(value: String) -> Experiment {
+    serde_json::from_str(&value).unwrap()
+}
+
 pub fn get_experiment(pool: &RedisPool, key: &str) -> RedisResult<Experiment> {
     let mut con = get_con(&pool)?;
     let value  = con.get(key).map_err(RedisError::CMDError)?;
     match value {
-        Value::Nil => Ok(Experiment::new()),
+        Value::Nil => Ok(Experiment::empty()),
         _ => FromRedisValue::from_redis_value(&value)
-            .map(|v: String| {
-                let deserialized: Experiment = serde_json::from_str(&v).unwrap();
-                deserialized 
-            })
+            .map(|v: String| deserialize_experiment(v))
             .map_err(|e| RedisError::TypeError(e).into())            
     }
 }
