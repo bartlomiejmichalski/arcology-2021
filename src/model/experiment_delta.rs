@@ -71,7 +71,7 @@ macro_rules! create_delta {
 mod tests {
     use super::*;
     #[test]
-    fn it_works() {
+    fn create_delta_should_create_delta_with_time_increment_1() {
         let delta = create_delta!(Time => 1).unwrap();
         assert_eq!(delta.time, 1);
     }

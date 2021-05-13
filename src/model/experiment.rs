@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use super::experiment_delta::ExperimentDelta;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Experiment {
@@ -34,7 +35,7 @@ impl Experiment {
             population_capacity: population_capacity
         }
     }
-    pub fn apply(&self, delta: super::ExperimentDelta) -> Experiment {
+    pub fn apply(&self, delta: ExperimentDelta) -> Experiment {
         Experiment::new(
             self.time + delta.time,
             self.score + delta.score,
@@ -49,15 +50,14 @@ impl Experiment {
         ) 
     }
 }
-
 #[cfg(test)]
 mod tests {
-    #[macro_use] use super::*;
+    use super::*;
     #[test]
-    fn it_works() {
+    fn apply_should_increase_time_by_1() {
         let delta : ExperimentDelta = crate::create_delta!(Time => 1).unwrap();
         let experiment = Experiment::empty();
         let new_experiment = experiment.apply(delta);
-        assert_eq!(delta.time, 2);
+        assert_eq!(new_experiment.time, 2);
     }
 }
