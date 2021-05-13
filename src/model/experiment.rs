@@ -55,7 +55,7 @@ mod tests {
     use super::*;
     #[test]
     fn apply_should_increase_time_by_1() {
-        let delta : ExperimentDelta = crate::create_delta!(Time => 1).unwrap();
+        let delta : ExperimentDelta = crate::create_delta!(time => 1).unwrap();
         let experiment = Experiment::empty();
         let new_experiment = experiment.apply(delta);
         assert_eq!(new_experiment.time, 2);
